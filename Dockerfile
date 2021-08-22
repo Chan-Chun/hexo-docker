@@ -1,22 +1,28 @@
-FROM centos:7
-COPY . /usr/local/node
-RUN \
-  yum install -y wget && \
-  mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup && \
-  wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo && \
-  yum makecache && \
-  yum update -y && \
-  yum install -y epel-release && \
-  yum install -y nginx && \
-  yum install -y git && \
-  yum install -y vim && \
-  git init --bare ~/blogs.git && \
-  echo "git --work-tree=/usr/share/nginx/html --git-dir=/root/blogs.git checkout -f" >~/blogs.git/hooks/post-receive && \
-  chmod a+x ~/blogs.git/hooks/post-receive && \
-  yum install -y openssh openssh-server openssh-clients && \
-  ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key && \
-  ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key && \
-  ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key
+FROM nginx:latest
+
+RUN sed -i 's#http://deb.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
+RUN sed -i 's#http://security.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
+RUN rm -Rf /var/lib/apt/lists/* && apt-get update
+RUN apt-get install -y git
+RUN git init --bare ~/blogs.git
+RUN mkdir -p /var/www/hexo
+RUN echo "git --work-tree=/var/www/hexo --git-dir=/root/blogs.git checkout -f" >~/blogs.git/hooks/post-receive
+RUN chmod a+x ~/blogs.git/hooks/post-receive
+RUN apt-get install -y openssh-server
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -y
+RUN ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -y
+RUN ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -y
+
+#Add Nginx Files
+ADD nginx/hexo.conf /etc/nginx/nginx.conf
+
 EXPOSE 22
 EXPOSE 80
-CMD ["nginx","-g","daemon off;"]
+
+# Next Step
+# RUN mkdir ~/.ssh
+# RUN echo "***" > ~/.ssh/authorized_keys
+# RUN chmod 600 ~/.ssh/authorized_keys
+# RUN chmod 700 ~/.ssh
+# RUN mkdir /run/sshd
+# RUN /usr/sbin/sshd
