@@ -14,7 +14,7 @@ RUN ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -y
 RUN ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -y
 
 #Add Nginx Files
-ADD nginx/hexo.conf /etc/nginx/nginx.conf
+ADD nginx/hexo.conf /etc/nginx/conf.d/nginx.conf
 
 EXPOSE 22
 EXPOSE 80
