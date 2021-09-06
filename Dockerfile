@@ -12,17 +12,12 @@ RUN apt-get install -y openssh-server
 RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -y
 RUN ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -y
 RUN ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -y
+RUN apt-get install -y certbot
+RUN apt-get install -y python3-certbot-nginx
 
 #Add Nginx Files
-ADD nginx/hexo.conf /etc/nginx/conf.d/nginx.conf
+ADD nginx/hexo.conf /etc/nginx/nginx.conf
 
 EXPOSE 22
 EXPOSE 80
-
-# Next Step
-# RUN mkdir ~/.ssh
-# RUN echo "***" > ~/.ssh/authorized_keys
-# RUN chmod 600 ~/.ssh/authorized_keys
-# RUN chmod 700 ~/.ssh
-# RUN mkdir /run/sshd
-# RUN /usr/sbin/sshd
+EXPOSE 443
