@@ -20,7 +20,7 @@ docker run -v $(pwd)/letsencrypt:/etc/letsencrypt -d -p 80:80 -p 443:443 -p 8004
 First enter docker container
 
 ```shell
-docker exec -it [your_container_name] /bin/bash
+docker exec -it "[your_container_name]" /bin/bash
 ```
 
 ### Let’s Encypt Setting
@@ -28,7 +28,7 @@ docker exec -it [your_container_name] /bin/bash
 Creat certificate
 
 ```shell
-certbot --nginx -d [your_domain.com]
+certbot --nginx -d "[your_domain.com]"
 ```
 
 Renew the certificate when it is about to expire
@@ -44,7 +44,7 @@ mkdir ~/.ssh
 ```
 
 ```shell
-echo [your_ssh_public_key] > ~/.ssh/authorized_keys
+echo "[your_ssh_public_key]" > ~/.ssh/authorized_keys
 ```
 
 ```shell
