@@ -74,7 +74,7 @@ deploy:
   branch: master
 ```
 
-`.ssh/config`
+`~/.ssh/config`
 
 ```
 Host hexo-test
