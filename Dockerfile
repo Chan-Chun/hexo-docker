@@ -1,4 +1,7 @@
 FROM nginx:latest
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive 
 
 RUN sed -i 's#http://deb.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
 RUN sed -i 's#http://security.debian.org#https://mirrors.163.com#g' /etc/apt/sources.list
