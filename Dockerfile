@@ -14,6 +14,7 @@ RUN ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -y
 RUN ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -y
 RUN apt-get install -y certbot
 RUN apt-get install -y python3-certbot-nginx
+RUN apt-get install -y cron
 
 #Add Nginx Files
 ADD nginx/hexo.conf /etc/nginx/nginx.conf
